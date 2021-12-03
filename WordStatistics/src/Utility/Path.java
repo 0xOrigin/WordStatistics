@@ -53,7 +53,12 @@ public class Path {
         return dir;
     }
 
+    public static int getdirType(String filePath){
+        return (getParentOfFile(filePath).equals(getFullPath()) ? 0 : 1);
+    }
+    
     private static Exception RuntimeException() {
         throw new UnsupportedOperationException("Make sure you passed a file not dir.");
     }
+    
 }

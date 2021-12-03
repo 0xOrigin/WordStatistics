@@ -7,7 +7,7 @@ import java.io.File;
  */
 public class Path { 
     
-    private static String fullPath;
+    private static String fullPath = "";
     
     public static boolean isValid(String dirPath){
         File dir = new File(dirPath);

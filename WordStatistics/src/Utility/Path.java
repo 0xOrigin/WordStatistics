@@ -7,10 +7,10 @@ import java.io.File;
  */
 public class Path { 
     
-    private static String fullPath = "", parentDir = "";
+    private static String fullPath = "", parentDirName = "";
     
     private static void initPaths(String pDir, String path){
-        parentDir = pDir;
+        parentDirName = pDir;
         fullPath = path;
     }
     
@@ -21,7 +21,7 @@ public class Path {
     }
     
     public static String getParentDirName(){
-        return parentDir;
+        return parentDirName;
     }
     
     public static String getSubDirName(String path){
@@ -35,6 +35,11 @@ public class Path {
             return p.getName();
         }
         throw RuntimeException();
+    }
+    
+    public static String getParentOfFile(String path){
+        File p = new File(path);
+        return p.getParent();
     }
     
     public static String getFullPath(){

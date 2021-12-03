@@ -8,80 +8,56 @@ import java.io.*;
 
 public abstract class FReader implements Runnable {
 
-    private static String path ;
-    private static int dirType = 0 ;
+    private static String path, dirName, fileName;
+    private static int dirType = 0;
 
-    public static void filereader(String path, String dirName, String fileName) {
+    public static void filereader(String path, String dirName, String fileName) throws IOException {
         FReader.path = path;
+        FReader.dirName = dirName;
+        FReader.fileName = fileName;
         FReader.dirType = getdirType(path);
         UpdateStatistics(dirType, dirName, fileName);
     }
 
-    private synchronized static void UpdateStatistics(int dirType, String dirName, String fileName) {
-        try {
-            ArrayList<String> FileContent = ReadFromFile();
-            String LONGEST_WORD = "", SHORTEST_WORD = "";
-            for (String line : FileContent) {
-                String[] words = line.split(" ");
-                for (String word : words) {
-                    
-                    FileContainer.incrementCounter(dirType, dirName, fileName,
-                   Column.NUMBER_OF_WORDS.ordinal());
-                    
-                    DirectoryContainer.incrementCounter(dirType, dirName,
-                                   Column.NUMBER_OF_WORDS.ordinal());
-
-                    switch (word.toLowerCase()) {
-                        case "is": {
-                            FileContainer.incrementCounter(dirType, dirName, fileName,
-                                   Column.NUMBER_OF_IS.ordinal());
-
-                            DirectoryContainer.incrementCounter(dirType, dirName,
-                                   Column.NUMBER_OF_IS.ordinal());
-
-                            break;
+    private static void UpdateStatistics(int dirType, String dirName, String fileName) throws IOException {
+        ArrayList<String> FileContent = ReadFromFile();
+        String LONGEST_WORD = "", SHORTEST_WORD = "";
+        for (String line : FileContent) {
+            String[] words = line.split(" ");
+            for (String word : words) {
+                Counter.IncreseWords(dirType, dirName, fileName);
+                switch (word.toLowerCase()) {
+                    case "is": {
+                        Counter.IncreseIs(dirType, dirName, fileName);
+                        break;
+                    }
+                    case "are": {
+                        Counter.IncreseAre(dirType, dirName, fileName);
+                        break;
+                    }
+                    case "you": {
+                        Counter.IncreseYou(dirType, dirName, fileName);
+                        break;
+                    }
+                    default: {
+                        if (word.length() > LONGEST_WORD.length()) {
+                            LONGEST_WORD = word;
+                            FileContainer.storeLongestWord(dirType, dirName, fileName, LONGEST_WORD);
+                            DirectoryContainer.storeLongestWord(dirType, dirName, LONGEST_WORD);
                         }
-                        case "are": {
-                            FileContainer.incrementCounter(dirType, dirName, fileName,
-                                   Column.NUMBER_OF_ARE.ordinal());
-
-                            DirectoryContainer.incrementCounter(dirType, dirName,
-                                   Column.NUMBER_OF_ARE.ordinal());
-
-                            break;
-                        }
-                        case "you": {
-                            FileContainer.incrementCounter(dirType, dirName, fileName,
-                                   Column.NUMBER_OF_YOU.ordinal());
-
-                            DirectoryContainer.incrementCounter(dirType, dirName,
-                                   Column.NUMBER_OF_YOU.ordinal());
-
-                            break;
-                        }
-                        default: {
-                            if (word.length() > LONGEST_WORD.length()) {
-                                LONGEST_WORD = word;
-                                FileContainer.storeLongestWord(dirType, dirName, fileName, LONGEST_WORD);
-                                DirectoryContainer.storeLongestWord(dirType, dirName, LONGEST_WORD);
-                            }
-                            if (word.length() < SHORTEST_WORD.length() || SHORTEST_WORD.length() == 0) {
-                                SHORTEST_WORD = word;
-                                FileContainer.storeShortestWord(dirType, dirName, fileName,
-                                        SHORTEST_WORD);
-                                DirectoryContainer.storeLongestWord(dirType, dirName, SHORTEST_WORD);
-                            }
+                        if (word.length() < SHORTEST_WORD.length() || SHORTEST_WORD.length() == 0) {
+                            SHORTEST_WORD = word;
+                            FileContainer.storeShortestWord(dirType, dirName, fileName,
+                                    SHORTEST_WORD);
+                            DirectoryContainer.storeLongestWord(dirType, dirName, SHORTEST_WORD);
                         }
                     }
                 }
             }
-        } catch (IOException e) {
-            e.printStackTrace();
         }
 
     }
 
-  
     private static ArrayList<String> ReadFromFile() throws IOException {
         ArrayList<String> FileContent = null;
         File file = new File(path);

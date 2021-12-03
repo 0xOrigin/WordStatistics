@@ -18,7 +18,7 @@ public class DirectoryContainer {
         mColumn = new HashMap<>();
         
         for(int i = 0; i < 6; i++)
-            mColumn.put(i, 0);
+            mColumn.put(i, (i == 1 || i == 2 ? "" : 0));
         
         return mColumn;
         

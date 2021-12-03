@@ -1,9 +1,5 @@
 package Utility;
 
-/**
- *
- * @author xorigin
- */
 public class DiscoverSubdirs implements Runnable {
     
     @Override

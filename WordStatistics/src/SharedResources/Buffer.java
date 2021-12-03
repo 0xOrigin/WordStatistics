@@ -1,5 +1,6 @@
 package SharedResources;
 
+import Utility.ConsumeFile;
 import java.util.LinkedList;
 import java.util.Queue;
 
@@ -25,6 +26,10 @@ public class Buffer {
     
     public static int size(){
         return q.size();
+    }
+    
+    public static void clear(){
+        q.clear();
     }
     
 }

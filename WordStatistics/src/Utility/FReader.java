@@ -17,7 +17,7 @@ public abstract class FReader implements Runnable {
         UpdateStatistics(path, dirName, fileName);
     }
 
-    private static void UpdateStatistics(String path, String dirName, String fileName) {
+    private synchronized static void UpdateStatistics(String path, String dirName, String fileName) {
         try {
             ArrayList<String> FileContent = ReadFromFile();
             String LONGEST_WORD = "", SHORTEST_WORD = "";

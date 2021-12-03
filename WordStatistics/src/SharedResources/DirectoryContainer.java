@@ -1,6 +1,7 @@
 package SharedResources;
 
 import Utility.Column;
+import static Utility.Path.generateMapKey;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,29 +25,29 @@ public class DirectoryContainer {
         
     }
     
-    public static void add(String dirName){
-        mDirName.put(dirName, generateColumns());
+    public static void add(int dirType, String dirName){
+        mDirName.put(generateMapKey(dirType, dirName), generateColumns());
     }
     
-    public static void incrementCounter(String dirName, int numOfCol){
-        mDirName.get(dirName).put(numOfCol, 1+(Integer)mColumn.get(numOfCol));
+    public static void incrementCounter(int dirType, String dirName, int numOfCol){
+        mDirName.get(generateMapKey(dirType, dirName)).put(numOfCol, 1+(Integer)mColumn.get(numOfCol));
     }
  
-    public static void storeLongestWord(String dirName, String word){
-        mDirName.get(dirName).put(Column.LONGEST_WORD.ordinal(), word);
+    public static void storeLongestWord(int dirType, String dirName, String word){
+        mDirName.get(generateMapKey(dirType, dirName)).put(Column.LONGEST_WORD.ordinal(), word);
     }
     
-    public static void storeShortestWord(String dirName, String word){
-        mDirName.get(dirName).put(Column.SHORTEST_WORD.ordinal(), word);
+    public static void storeShortestWord(int dirType, String dirName, String word){
+        mDirName.get(generateMapKey(dirType, dirName)).put(Column.SHORTEST_WORD.ordinal(), word);
     }
     
-    public static String getStatisticsOf(String dirName, int numOfCol){
-           return mDirName.get(dirName).get(numOfCol).toString();
+    public static String getStatisticsOf(int dirType, String dirName, int numOfCol){
+        return mDirName.get(generateMapKey(dirType, dirName)).get(numOfCol).toString();
     }
     
     public static void clearResults(){
         mColumn.clear();
         mDirName.clear();
     }
-    
+     
 }

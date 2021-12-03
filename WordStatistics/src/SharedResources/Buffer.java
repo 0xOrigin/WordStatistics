@@ -11,8 +11,8 @@ public class Buffer {
     
     private static Queue<String> q = new LinkedList<>();
 
-    public static void pushBack(String dirName, String fileName){
-        q.add(dirName + "/" + fileName);
+    public static void pushBack(String path){
+        q.add(path);
     }
     
     public static String getAndPopFront(){

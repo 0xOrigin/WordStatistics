@@ -2,11 +2,10 @@ package Utility;
 
 public class FReader implements Runnable {
     
-    private String dirName, fileName;
+    private String path;
 
-    public FReader(String dirName, String fileName) {
-        this.dirName = dirName;
-        this.fileName = fileName;
+    public FReader(String path) {
+       this.path = path;
     }
     
     @Override

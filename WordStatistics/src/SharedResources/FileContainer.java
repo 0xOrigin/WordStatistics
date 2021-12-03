@@ -1,6 +1,7 @@
 package SharedResources;
 
 import Utility.Column;
+import static Utility.Path.generateMapKey;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -24,24 +25,24 @@ public class FileContainer {
         
     }
     
-    public static void add(String dirName, String fileName){
-        mFileName.put(dirName + "/" + fileName, generateColumns());
+    public static void add(int dirType, String dirName, String fileName){
+        mFileName.put(generateMapKey(dirType, dirName)+ "/" + fileName, generateColumns());
     }
     
-    public static void incrementCounter(String dirName, String fileName, int numOfCol){
-        mFileName.get(dirName + "/" + fileName).put(numOfCol, 1+(Integer)mColumn.get(numOfCol));
+    public static void incrementCounter(int dirType, String dirName, String fileName, int numOfCol){
+        mFileName.get(generateMapKey(dirType, dirName) + "/" + fileName).put(numOfCol, 1+(Integer)mColumn.get(numOfCol));
     }
  
-    public static void storeLongestWord(String dirName, String fileName, String word){
-        mFileName.get(dirName + "/" + fileName).put(Column.LONGEST_WORD.ordinal(), word);
+    public static void storeLongestWord(int dirType, String dirName, String fileName, String word){
+        mFileName.get(generateMapKey(dirType, dirName) + "/" + fileName).put(Column.LONGEST_WORD.ordinal(), word);
     }
     
-    public static void storeShortestWord(String dirName, String fileName, String word){
-        mFileName.get(dirName + "/" + fileName).put(Column.SHORTEST_WORD.ordinal(), word);
+    public static void storeShortestWord(int dirType, String dirName, String fileName, String word){
+        mFileName.get(generateMapKey(dirType, dirName) + "/" + fileName).put(Column.SHORTEST_WORD.ordinal(), word);
     }
     
-    public static String getStatisticsOf(String dirName, String fileName, int numOfCol){
-           return mFileName.get(dirName + "/" + fileName).get(numOfCol).toString();
+    public static String getStatisticsOf(int dirType, String dirName, String fileName, int numOfCol){
+           return mFileName.get(generateMapKey(dirType, dirName) + "/" + fileName).get(numOfCol).toString();
     }
     
     public static void clearResults(){

@@ -7,6 +7,8 @@ import java.io.File;
  */
 public class Path { 
     
+    private static String fullPath;
+    
     public static boolean isValid(String dirPath){
         File dir = new File(dirPath);
         return dir.isDirectory();
@@ -14,7 +16,12 @@ public class Path {
     
     public static String getDirName(String path){
         File dir = new File(path);
+        fullPath = path;
         return dir.getName();
     }
     
+    public static String getBeforeDirPath(){
+        File path = new File(fullPath);
+        return path.getParent();
+    }
 }

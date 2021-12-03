@@ -24,7 +24,7 @@ public class FileContainer {
         return mColumn;
         
     }
-    
+     
     public static void add(int dirType, String dirName, String fileName){
         mFileName.put(generateMapKey(dirType, dirName)+ "/" + fileName, generateColumns());
     }

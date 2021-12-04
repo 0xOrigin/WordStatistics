@@ -27,18 +27,18 @@ public abstract class FReader implements Runnable {
         for (String line : FileContent) {
             String[] words = line.split(" ");
             for (String word : words) {
-                Counter.IncreseWords(dirType, dirName, fileName);
+                Counter.increaseWords(dirType, dirName, fileName);
                 switch (word.toLowerCase()) {
                     case "is": {
-                        Counter.IncreseIs(dirType, dirName, fileName);
+                        Counter.increaseIs(dirType, dirName, fileName);
                         break;
                     }
                     case "are": {
-                        Counter.IncreseAre(dirType, dirName, fileName);
+                        Counter.increaseAre(dirType, dirName, fileName);
                         break;
                     }
                     case "you": {
-                        Counter.IncreseYou(dirType, dirName, fileName);
+                        Counter.increaseYou(dirType, dirName, fileName);
                         break;
                     }
                     default: {

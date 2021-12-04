@@ -25,19 +25,19 @@ public class DirectoryContainer {
         
     }
     
-    public static void add(int dirType, String dirName){
+    public static synchronized void add(int dirType, String dirName){
         mDirName.put(generateMapKey(dirType, dirName), generateColumns());
     }
     
-    public static void incrementCounter(int dirType, String dirName, int numOfCol){
+    public static synchronized void incrementCounter(int dirType, String dirName, int numOfCol){
         mDirName.get(generateMapKey(dirType, dirName)).put(numOfCol, 1+(Integer)mColumn.get(numOfCol));
     }
  
-    public static void storeLongestWord(int dirType, String dirName, String word){
+    public static synchronized void storeLongestWord(int dirType, String dirName, String word){
         mDirName.get(generateMapKey(dirType, dirName)).put(Column.LONGEST_WORD.ordinal(), word);
     }
     
-    public static void storeShortestWord(int dirType, String dirName, String word){
+    public static synchronized void storeShortestWord(int dirType, String dirName, String word){
         mDirName.get(generateMapKey(dirType, dirName)).put(Column.SHORTEST_WORD.ordinal(), word);
     }
     

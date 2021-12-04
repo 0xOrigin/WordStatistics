@@ -20,6 +20,9 @@ public abstract class FReader implements Runnable {
     }
 
     private static void UpdateStatistics(int dirType, String dirName, String fileName) throws IOException {
+        
+        Counter c = Counter.getInstance();
+        
         ArrayList<String> FileContent = ReadFromFile();
         String LONGEST_WORD = "", SHORTEST_WORD = "";
         for (String line : FileContent) {
@@ -66,7 +69,7 @@ public abstract class FReader implements Runnable {
             reader = new FileReader(file);
             char[] chars = new char[(int) file.length()];
             reader.read(chars);
-            FileContent = new ArrayList<String>(Arrays.asList(new String(chars).split("\n")));
+            FileContent = new ArrayList<>(Arrays.asList(new String(chars).split("\n")));
             reader.close();
         } catch (IOException e) {
             e.printStackTrace();

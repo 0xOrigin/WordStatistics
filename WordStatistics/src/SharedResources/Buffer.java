@@ -30,5 +30,5 @@ public class Buffer {
     public static void clear(){
         q.clear();
     }
-    
+     
 }

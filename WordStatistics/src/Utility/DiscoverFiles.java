@@ -12,6 +12,7 @@ public class DiscoverFiles implements Runnable {
     }
     @Override
     public void run(){
+        
         File f = new File(dirPath); 
         
         File[] filesArr = f.listFiles(new FilenameFilter() {
@@ -20,11 +21,10 @@ public class DiscoverFiles implements Runnable {
              return name.endsWith(".txt");
         }
     });
+        
         for(File file : filesArr){
             Buffer.pushBack(file.getAbsolutePath());
         }
     }
-    
-    
     
 }

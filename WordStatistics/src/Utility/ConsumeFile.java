@@ -52,19 +52,14 @@ public class ConsumeFile {
             for (int i = start; i < stop && i < currentSize; i++) {
                 String currentPath = Buffer.getAndPopFront();
                 try {
-                    FileContainer.add(Path.getdirType(currentPath), CurrentDirName(currentPath),
-                            Path.getFileName(currentPath));
-                    FReader.filereader(currentPath, CurrentDirName(currentPath), Path.getFileName(currentPath));
+                    FileContainer.add(Path.getdirType(currentPath), Path.currentDirName(currentPath), Path.getFileName(currentPath));
+                    FReader.filereader(currentPath, Path.currentDirName(currentPath), Path.getFileName(currentPath));
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
         }
 
-        private static String CurrentDirName(String path) {
-            return (Path.getdirType(path) == 1 ? Path.getSubDirName(path)
-                    : Path.getParentDirName());
-        }
     }
 }
 

@@ -54,8 +54,6 @@ public class ResultFrame extends javax.swing.JFrame {
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null}
             },
             new String [] {
@@ -90,8 +88,6 @@ public class ResultFrame extends javax.swing.JFrame {
 
         FileTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null, null, null, null, null},
-                {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},
                 {null, null, null, null, null, null, null, null},

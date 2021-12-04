@@ -11,11 +11,11 @@ public class Buffer {
     
     private static Queue<String> q = new LinkedList<>();
 
-    public static void pushBack(String path){
+    public synchronized static void pushBack(String path){
         q.add(path);
     }
     
-    public static String getAndPopFront(){
+    public synchronized static String getAndPopFront(){
         return (!q.isEmpty() ? q.remove() : null);
     }
     

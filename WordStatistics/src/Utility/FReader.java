@@ -8,23 +8,22 @@ import java.io.*;
 
 public abstract class FReader implements Runnable {
 
-    private static String path, dirName, fileName;
+    private static String path;
     private static int dirType = 0;
 
     public static void filereader(String path, String dirName, String fileName) throws IOException {
         FReader.path = path;
-        FReader.dirName = dirName;
-        FReader.fileName = fileName;
         FReader.dirType = getdirType(path);
         UpdateStatistics(dirType, dirName, fileName);
     }
 
     private static void UpdateStatistics(int dirType, String dirName, String fileName) throws IOException {
-        
+
         Counter c = Counter.getInstance();
-        
+
         ArrayList<String> FileContent = ReadFromFile();
         String LONGEST_WORD = "", SHORTEST_WORD = "";
+
         for (String line : FileContent) {
             String[] words = line.split(" ");
             for (String word : words) {

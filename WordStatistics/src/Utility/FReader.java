@@ -27,7 +27,7 @@ public abstract class FReader implements Runnable {
         for (String line : FileContent) {
             String[] words = line.split("[\\s|\\u00A0]+");
             for (String word : words) {
-                if ("".equals(word)){
+                if ("".equals(word) || word.equals("[\\s|\\u00A0]+")) {
                     continue;
                 }
                 Counter.increaseWords(dirType, dirName, fileName);
@@ -44,19 +44,16 @@ public abstract class FReader implements Runnable {
                         Counter.increaseYou(dirType, dirName, fileName);
                         break;
                     }
-                    default: {
-                        if (word.length() >= LONGEST_WORD.length()) {
-                            LONGEST_WORD = word;
-                            FileContainer.storeLongestWord(dirType, dirName, fileName, LONGEST_WORD);
-                            DirectoryContainer.storeLongestWord(dirType, dirName, LONGEST_WORD);
-                        }
-                        if ((word.length() <= SHORTEST_WORD.length()) || SHORTEST_WORD.length() == 0) {
-                            SHORTEST_WORD = word;
-                            FileContainer.storeShortestWord(dirType, dirName, fileName,
-                                    SHORTEST_WORD);
-                            DirectoryContainer.storeLongestWord(dirType, dirName, SHORTEST_WORD);
-                        }
-                    }
+                }
+                if (word.length() >= LONGEST_WORD.length()) {
+                    LONGEST_WORD = word;
+                    FileContainer.storeLongestWord(dirType, dirName, fileName, LONGEST_WORD);
+                    DirectoryContainer.storeLongestWord(dirType, dirName, LONGEST_WORD);
+                }
+                if ((word.length() <= SHORTEST_WORD.length()) || SHORTEST_WORD.length() == 0) {
+                    SHORTEST_WORD = word;
+                    FileContainer.storeShortestWord(dirType, dirName, fileName, SHORTEST_WORD);
+                    DirectoryContainer.storeShortestWord(dirType, dirName, SHORTEST_WORD);
                 }
             }
         }

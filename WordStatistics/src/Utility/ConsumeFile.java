@@ -2,17 +2,22 @@ package Utility;
 
 import SharedResources.Buffer;
 import SharedResources.FileContainer;
-import Utility.Path;
 
 public class ConsumeFile {
     private static final int MAX_NUM_OF_THREADS = 10;
 
-    public synchronized static void consume() {
+    public static void consume() {
 
         while (true) {
-            while (Buffer.isEmpty())
-                ;
-
+            
+             while (Buffer.isEmpty()){
+                try {
+                    Thread.sleep(250);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+            
             int CURRENT_SIZE_OF_BUFFER = Buffer.size();
 
             final int NUM_OF_THREAD = Math.min(
@@ -52,15 +57,16 @@ public class ConsumeFile {
             for (int i = start; i < stop && i < currentSize; i++) {
                 String currentPath = Buffer.getAndPopFront();
                 try {
+               
                     FileContainer.add(Path.getdirType(currentPath), Path.currentDirName(currentPath), Path.getFileName(currentPath));
                     FReader.filereader(currentPath, Path.currentDirName(currentPath), Path.getFileName(currentPath));
+                    
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
+//                System.out.println(Thread.currentThread().getName());
             }
         }
 
     }
 }
-
-// System.out.println(Thread.currentThread().getName());

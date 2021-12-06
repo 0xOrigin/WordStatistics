@@ -25,14 +25,10 @@ public class Path {
         return parentDirName;
     }
 
-    public static String getSubDirName(String path) {
-        File p = new File(path);
-        return p.getName();
-    }
-
-    public static String currentDirName(String path) {
-        return (getdirType(path) == 1 ? getSubDirName(path)
-                : getParentDirName());
+    public static String currentDirName(String filepath) {
+        File p = new File(filepath);
+        File pn = new File(p.getParent());
+        return pn.getName();
     }
 
     public static String getFileName(String path) throws Exception {

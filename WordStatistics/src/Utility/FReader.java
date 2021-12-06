@@ -25,8 +25,11 @@ public abstract class FReader implements Runnable {
         String LONGEST_WORD = "", SHORTEST_WORD = "";
 
         for (String line : FileContent) {
-            String[] words = line.split(" ");
+            String[] words = line.split("[\\s|\\u00A0]+");
             for (String word : words) {
+                if ("".equals(word)){
+                    continue;
+                }
                 Counter.increaseWords(dirType, dirName, fileName);
                 switch (word.toLowerCase()) {
                     case "is": {
@@ -42,12 +45,12 @@ public abstract class FReader implements Runnable {
                         break;
                     }
                     default: {
-                        if (word.length() > LONGEST_WORD.length()) {
+                        if (word.length() >= LONGEST_WORD.length()) {
                             LONGEST_WORD = word;
                             FileContainer.storeLongestWord(dirType, dirName, fileName, LONGEST_WORD);
                             DirectoryContainer.storeLongestWord(dirType, dirName, LONGEST_WORD);
                         }
-                        if (word.length() < SHORTEST_WORD.length() || SHORTEST_WORD.length() == 0) {
+                        if ((word.length() <= SHORTEST_WORD.length()) || SHORTEST_WORD.length() == 0) {
                             SHORTEST_WORD = word;
                             FileContainer.storeShortestWord(dirType, dirName, fileName,
                                     SHORTEST_WORD);

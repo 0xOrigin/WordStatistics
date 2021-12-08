@@ -141,7 +141,12 @@ public class MainFrame extends javax.swing.JFrame {
             }
             Thread t= new Thread (new DiscoverFiles(path));
             t.start();
-            ConsumeFile.consume();
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    ConsumeFile.consume();
+                }
+            }).start();
         }
         else{
             Toolkit.getDefaultToolkit().beep();

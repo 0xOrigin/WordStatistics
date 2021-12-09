@@ -6,9 +6,11 @@ import SharedResources.Buffer ;
 public class DiscoverFiles implements Runnable {
     
     private String dirPath ; 
+    
     public DiscoverFiles(String dirPath){
         this.dirPath = dirPath ; 
     }
+    
     @Override
     public void run(){
         File f = new File(dirPath); 

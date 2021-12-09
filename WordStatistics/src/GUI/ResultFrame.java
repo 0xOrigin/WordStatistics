@@ -1,10 +1,4 @@
-
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import javax.swing.SwingConstants;
-import javax.swing.table.DefaultTableCellRenderer;
-import javax.swing.table.DefaultTableModel;
-
+package GUI;
 
 /**
  *
@@ -13,13 +7,22 @@ import javax.swing.table.DefaultTableModel;
 
 public class ResultFrame extends javax.swing.JFrame {
 
-    public ResultFrame() {
+    private volatile static ResultFrame uniqueIstance;
+    
+    private ResultFrame(){
         initComponents();
         this.setLocationRelativeTo(null);
-//        DefaultTableCellRenderer renderer = (DefaultTableCellRenderer)DirectoryTable.getDefaultRenderer(Object.class);
-//        renderer.setHorizontalAlignment( SwingConstants.CENTER );
     }
-
+    
+    public static ResultFrame getInstance() {
+        if(uniqueIstance == null){
+            synchronized(ResultFrame.class){
+                uniqueIstance = new ResultFrame();
+            }
+        }
+        return uniqueIstance;
+    }
+    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -146,24 +149,30 @@ public class ResultFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void DirectoryTablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_DirectoryTablePropertyChange
-        DefaultTableModel model = (DefaultTableModel) DirectoryTable.getModel();
-        model.insertRow(model.getRowCount(), new Object[]{1,2,3,4,5,6,7,8});
+        
     }//GEN-LAST:event_DirectoryTablePropertyChange
 
+    public javax.swing.JTable getDirectoryTable(){
+        return DirectoryTable;
+    }
+    
     private void FileTablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_FileTablePropertyChange
         
     }//GEN-LAST:event_FileTablePropertyChange
 
+    public javax.swing.JTable getFileTable(){
+        return FileTable;
+    }
+    
+    private void clear(){
+        uniqueIstance = null;
+    }
+    
     public static void main(String args[]) {
 
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                /*try {
-                    Thread.sleep(250);
-                } catch (InterruptedException ex) {
-                    Logger.getLogger(ResultFrame.class.getName()).log(Level.SEVERE, null, ex);
-                }*/
-                new ResultFrame().setVisible(true);
+                getInstance().setVisible(true);
             }
         });
     }

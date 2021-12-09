@@ -1,17 +1,20 @@
 package SharedResources;
 
 import Utility.Column;
+import GUI.ResultFrame;
+import Utility.Path;
 import static Utility.Path.generateMapKey;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
+import javax.swing.table.DefaultTableModel;
 
 /**
  *
  * @author xorigin
  */
 public class DirectoryContainer {
-
+    
     private static Map<String, ArrayList<Object>> mDirName = new HashMap<String, ArrayList<Object>>();
 
     private static ArrayList<Object> generateColumns() {
@@ -25,41 +28,66 @@ public class DirectoryContainer {
 
     }
 
-    public static synchronized void add(int dirType, String dirName) {
-        mDirName.put(generateMapKey(dirType, dirName), generateColumns());
+    public static synchronized void add(String dirPath) {
+        
+        ArrayList<Object> columns = generateColumns();
+        String dir = generateMapKey(dirPath);
+        ArrayList<Object> rowData = new ArrayList<>();
+        
+        mDirName.put(dir, columns);
+        
+        DefaultTableModel model = (DefaultTableModel) ResultFrame.getInstance().getDirectoryTable().getModel();
+        rowData.add(model.getRowCount() + 1);
+        rowData.add(dir);
+        for(Object o : columns){
+            rowData.add(o);
+        }
+        
+        model.addRow(rowData.toArray());
+        
     }
 
-    public static synchronized void incrementCounter(int dirType, String dirName, int numOfCol) {
-
-        int oldValue = (int) mDirName.get(generateMapKey(dirType, dirName)).get(numOfCol);
-        mDirName.get(generateMapKey(dirType, dirName)).set(numOfCol, oldValue + 1);
+    public static synchronized void incrementCounter(String filePath, int numOfCol) {
+        
+        String dir = generateMapKey(Path.getParentOfFile(filePath));
+        int oldValue = (int) mDirName.get(dir).get(numOfCol);
+        mDirName.get(dir).set(numOfCol, oldValue + 1);
 
     }
 
-    public static synchronized void storeLongestWord(int dirType, String dirName, String word) {
+    public static synchronized void storeLongestWord(String filePath, String word) {
 
-        if (word.length() >= mDirName.get(generateMapKey(dirType, dirName)).get(Column.LONGEST_WORD.ordinal())
+        String dir = generateMapKey(Path.getParentOfFile(filePath));
+        
+        if (word.length() >= mDirName.get(dir).get(Column.LONGEST_WORD.ordinal())
                 .toString().length()) {
 
-            mDirName.get(generateMapKey(dirType, dirName)).set(Column.LONGEST_WORD.ordinal(), word);
+            mDirName.get(dir).set(Column.LONGEST_WORD.ordinal(), word);
 
         }
 
     }
 
-    public static synchronized void storeShortestWord(int dirType, String dirName, String word) {
-        String s = mDirName.get(generateMapKey(dirType, dirName)).get(Column.SHORTEST_WORD.ordinal()).toString();
+    public static synchronized void storeShortestWord(String filePath, String word) {
+        
+        String dir = generateMapKey(Path.getParentOfFile(filePath));
+        
+        String s = mDirName.get(dir).get(Column.SHORTEST_WORD.ordinal()).toString();
 
         if ((word.length() <= s.length() || s.equals(""))) {
 
-            mDirName.get(generateMapKey(dirType, dirName)).set(Column.SHORTEST_WORD.ordinal(), word);
+            mDirName.get(dir).set(Column.SHORTEST_WORD.ordinal(), word);
 
         }
 
     }
 
-    public static String getStatisticsOf(int dirType, String dirName, int numOfCol) {
-        return mDirName.get(generateMapKey(dirType, dirName)).get(numOfCol).toString();
+    public static String getStatisticsOf(String filePath, int numOfCol) {
+        
+        String dir = generateMapKey(Path.getParentOfFile(filePath));
+        
+        return mDirName.get(dir).get(numOfCol).toString();
+    
     }
 
     public static void clearResults() {

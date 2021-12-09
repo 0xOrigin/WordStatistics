@@ -14,7 +14,7 @@ public class DiscoverSubdirs implements Runnable {
     @Override
     public void run(){
         
-        File file =new File(path);
+        File file = new File(path);
         
         File[] subdirs = file.listFiles(new FilenameFilter(){
             @Override
@@ -26,9 +26,10 @@ public class DiscoverSubdirs implements Runnable {
         Thread t;
         for(File dir :subdirs){
 
-            DirectoryContainer.add(DirType.SUBDIR.ordinal(), dir.getName());
+            DirectoryContainer.add(dir.getAbsolutePath());
             t = new Thread(new DiscoverFiles(dir.getAbsolutePath()));
             t.start();            
+
         }
     } 
 }

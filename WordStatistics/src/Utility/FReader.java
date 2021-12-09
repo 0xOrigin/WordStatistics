@@ -2,22 +2,19 @@ package Utility;
 
 import SharedResources.DirectoryContainer;
 import SharedResources.FileContainer;
-import static Utility.Path.getdirType;
 import java.util.*;
 import java.io.*;
 
 public abstract class FReader implements Runnable {
 
-    private static String path;
-    private static int dirType = 0;
+    private static String path = "";
 
-    public static void filereader(String path, String dirName, String fileName) throws IOException {
+    public static void filereader(String path) throws IOException {
         FReader.path = path;
-        FReader.dirType = getdirType(path);
-        UpdateStatistics(dirType, dirName, fileName);
+        UpdateStatistics(path);
     }
 
-    private static void UpdateStatistics(int dirType, String dirName, String fileName) throws IOException {
+    private static void UpdateStatistics(String filePath) throws IOException {
 
         Counter c = Counter.getInstance();
 
@@ -30,30 +27,30 @@ public abstract class FReader implements Runnable {
                 if ("".equals(word) || word.equals("[\\s|\\u00A0]+")) {
                     continue;
                 }
-                Counter.increaseWords(dirType, dirName, fileName);
+                Counter.increaseWords(filePath);
                 switch (word.toLowerCase()) {
                     case "is": {
-                        Counter.increaseIs(dirType, dirName, fileName);
+                        Counter.increaseIs(filePath);
                         break;
                     }
                     case "are": {
-                        Counter.increaseAre(dirType, dirName, fileName);
+                        Counter.increaseAre(filePath);
                         break;
                     }
                     case "you": {
-                        Counter.increaseYou(dirType, dirName, fileName);
+                        Counter.increaseYou(filePath);
                         break;
                     }
                 }
                 if (word.length() >= LONGEST_WORD.length()) {
                     LONGEST_WORD = word;
-                    FileContainer.storeLongestWord(dirType, dirName, fileName, LONGEST_WORD);
-                    DirectoryContainer.storeLongestWord(dirType, dirName, LONGEST_WORD);
+                    FileContainer.storeLongestWord(filePath, LONGEST_WORD);
+                    DirectoryContainer.storeLongestWord(filePath, LONGEST_WORD);
                 }
                 if ((word.length() <= SHORTEST_WORD.length()) || SHORTEST_WORD.length() == 0) {
                     SHORTEST_WORD = word;
-                    FileContainer.storeShortestWord(dirType, dirName, fileName, SHORTEST_WORD);
-                    DirectoryContainer.storeShortestWord(dirType, dirName, SHORTEST_WORD);
+                    FileContainer.storeShortestWord(filePath, SHORTEST_WORD);
+                    DirectoryContainer.storeShortestWord(filePath, SHORTEST_WORD);
                 }
             }
         }

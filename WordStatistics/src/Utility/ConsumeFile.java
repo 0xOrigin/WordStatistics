@@ -58,8 +58,8 @@ public class ConsumeFile {
                 String currentPath = Buffer.getAndPopFront();
                 try {
                
-                    FileContainer.add(Path.getdirType(currentPath), Path.currentDirName(currentPath), Path.getFileName(currentPath));
-                    FReader.filereader(currentPath, Path.currentDirName(currentPath), Path.getFileName(currentPath));
+                    FileContainer.add(currentPath);
+                    FReader.filereader(currentPath);
                     
                 } catch (Exception e) {
                     e.printStackTrace();

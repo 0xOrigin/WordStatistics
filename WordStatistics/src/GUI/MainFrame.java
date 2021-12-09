@@ -2,7 +2,7 @@
  *
  * @author xorigin
  */
-
+package GUI;
 import SharedResources.DirectoryContainer;
 import Utility.*;
 import java.awt.Toolkit;
@@ -133,8 +133,8 @@ public class MainFrame extends javax.swing.JFrame {
         String path= DirPath.getText();
         if(Path.isValid(path)){
             this.dispose();
-            new ResultFrame().setVisible(true);
-            DirectoryContainer.add(DirType.PARENT.ordinal(), Path.getParentDirName());
+            ResultFrame.getInstance().setVisible(true);
+            DirectoryContainer.add(path);
             if(SubDirsCheckBox.isSelected()){
                 Thread t = new Thread (new DiscoverSubdirs(path));
                 t.start();

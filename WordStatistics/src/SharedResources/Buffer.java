@@ -19,11 +19,11 @@ public class Buffer {
         return (!q.isEmpty() ? q.remove() : null);
     }
     
-    public static boolean isEmpty(){ // synchronized
+    public static boolean isEmpty(){
         return q.isEmpty();
     }
     
-    public static int size(){ // synchronized
+    public static int size(){
         return q.size();
     }
     

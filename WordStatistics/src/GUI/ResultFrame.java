@@ -1,5 +1,8 @@
 package GUI;
 
+import javax.swing.JLabel;
+import javax.swing.table.DefaultTableCellRenderer;
+
 /**
  *
  * @author xorigin
@@ -149,7 +152,11 @@ public class ResultFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void DirectoryTablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_DirectoryTablePropertyChange
-        
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        for(int i=0;i<DirectoryTable.getColumnCount();++i){
+            DirectoryTable.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+        }
     }//GEN-LAST:event_DirectoryTablePropertyChange
 
     public javax.swing.JTable getDirectoryTable(){
@@ -157,7 +164,11 @@ public class ResultFrame extends javax.swing.JFrame {
     }
     
     private void FileTablePropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_FileTablePropertyChange
-        
+        DefaultTableCellRenderer centerRenderer = new DefaultTableCellRenderer();
+        centerRenderer.setHorizontalAlignment( JLabel.CENTER );
+        for(int i=0;i<FileTable.getColumnCount();++i){
+            FileTable.getColumnModel().getColumn(i).setCellRenderer( centerRenderer );
+        }
     }//GEN-LAST:event_FileTablePropertyChange
 
     public javax.swing.JTable getFileTable(){

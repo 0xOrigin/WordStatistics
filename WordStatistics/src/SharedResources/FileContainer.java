@@ -20,8 +20,8 @@ public class FileContainer {
         
         ArrayList<Object> columnArr = new ArrayList<>();
         
-        for(int i = 0; i < 6; i++)
-            columnArr.add((i == 1 || i == 2) ? "" : 0);
+        for(int i = 0; i < 7; i++)
+            columnArr.add((i == Column.LONGEST_WORD.ordinal() || i == Column.SHORTEST_WORD.ordinal()) ? "" : 0);
         
         return columnArr;
 
@@ -33,13 +33,15 @@ public class FileContainer {
         String file = generateMapKey(filePath);
         ArrayList<Object> rowData = new ArrayList<>();
         
+        DefaultTableModel model = (DefaultTableModel) ResultFrame.getInstance().getFileTable().getModel();
+        columns.set(Column.ROW_NUM.ordinal(), (model.getRowCount() + 1));
+        
         mFileName.put(file, columns);
         
-        DefaultTableModel model = (DefaultTableModel) ResultFrame.getInstance().getFileTable().getModel();
-        rowData.add(model.getRowCount() + 1);
+        rowData.add(columns.get(Column.ROW_NUM.ordinal()));
         rowData.add(file);
-        for(Object o : columns){
-            rowData.add(o);
+        for(int i = 1; i < 7; i++){
+            rowData.add(columns.get(i));
         }
         
         model.addRow(rowData.toArray());

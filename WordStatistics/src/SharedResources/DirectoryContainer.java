@@ -21,8 +21,8 @@ public class DirectoryContainer {
 
         ArrayList<Object> columnArr = new ArrayList<>();
 
-        for (int i = 0; i < 6; i++)
-            columnArr.add((i == 1 || i == 2) ? "" : 0);
+        for (int i = 0; i < 7; i++)
+            columnArr.add((i == Column.LONGEST_WORD.ordinal() || i == Column.SHORTEST_WORD.ordinal()) ? "" : 0);
 
         return columnArr;
 
@@ -34,13 +34,15 @@ public class DirectoryContainer {
         String dir = generateMapKey(dirPath);
         ArrayList<Object> rowData = new ArrayList<>();
         
+        DefaultTableModel model = (DefaultTableModel) ResultFrame.getInstance().getDirectoryTable().getModel();
+        columns.set(Column.ROW_NUM.ordinal(), model.getRowCount() + 1);
+        
         mDirName.put(dir, columns);
         
-        DefaultTableModel model = (DefaultTableModel) ResultFrame.getInstance().getDirectoryTable().getModel();
-        rowData.add(model.getRowCount() + 1);
+        rowData.add(columns.get(Column.ROW_NUM.ordinal()));
         rowData.add(dir);
-        for(Object o : columns){
-            rowData.add(o);
+        for(int i = 1; i < 7; i++){
+            rowData.add(columns.get(i));
         }
         
         model.addRow(rowData.toArray());
@@ -52,7 +54,7 @@ public class DirectoryContainer {
         String dir = generateMapKey(Path.getParentOfFile(filePath));
         int oldValue = (int) mDirName.get(dir).get(numOfCol);
         mDirName.get(dir).set(numOfCol, oldValue + 1);
-
+        
     }
 
     public static synchronized void storeLongestWord(String filePath, String word) {

@@ -13,6 +13,7 @@ public class Path {
     private static void initPath(String path) {
         File file = new File(path);
         beforeTheParentDir = file.getParent() + "/";
+        beforeTheParentDir = beforeTheParentDir.replaceAll("\\\\", "/");
     }
 
     public static boolean isValid(String dirPath) {
@@ -23,10 +24,12 @@ public class Path {
 
     public static String getParentOfFile(String path) {
         File p = new File(path);
-        return p.getParent();
+        String parent = p.getParent();
+        return parent.replaceAll("\\\\", "/");
     }
 
     public static String generateMapKey(String path) {
+        path = path.replaceAll("\\\\", "/");
         return path.replaceAll(beforeTheParentDir, "");
     }
     

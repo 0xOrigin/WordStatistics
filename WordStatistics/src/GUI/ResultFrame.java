@@ -164,7 +164,7 @@ public class ResultFrame extends javax.swing.JFrame {
         return FileTable;
     }
     
-    private void clear(){
+    private static void clear(){
         uniqueIstance = null;
     }
     

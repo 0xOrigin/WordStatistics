@@ -17,6 +17,8 @@ public class DirectoryContainer {
     
     private static Map<String, ArrayList<Object>> mDirName = new HashMap<String, ArrayList<Object>>();
 
+    private static DefaultTableModel model = (DefaultTableModel) ResultFrame.getInstance().getDirectoryTable().getModel();
+    
     private static ArrayList<Object> generateColumns() {
 
         ArrayList<Object> columnArr = new ArrayList<>();
@@ -34,7 +36,6 @@ public class DirectoryContainer {
         String dir = generateMapKey(dirPath);
         ArrayList<Object> rowData = new ArrayList<>();
         
-        DefaultTableModel model = (DefaultTableModel) ResultFrame.getInstance().getDirectoryTable().getModel();
         columns.set(Column.ROW_NUM.ordinal(), model.getRowCount() + 1);
         
         mDirName.put(dir, columns);
@@ -55,17 +56,21 @@ public class DirectoryContainer {
         int oldValue = (int) mDirName.get(dir).get(numOfCol);
         mDirName.get(dir).set(numOfCol, oldValue + 1);
         
+        if(numOfCol > 0){
+            model.setValueAt(oldValue+1, (int)mDirName.get(dir).get(Column.ROW_NUM.ordinal())-1, numOfCol+1);
+        }
     }
 
     public static synchronized void storeLongestWord(String filePath, String word) {
 
         String dir = generateMapKey(Path.getParentOfFile(filePath));
         
-        if (word.length() >= mDirName.get(dir).get(Column.LONGEST_WORD.ordinal())
-                .toString().length()) {
+        if (word.length() >= mDirName.get(dir).get(Column.LONGEST_WORD.ordinal()).toString().length()) {
 
             mDirName.get(dir).set(Column.LONGEST_WORD.ordinal(), word);
-
+            
+            model.setValueAt(word, (int)mDirName.get(dir).get(Column.ROW_NUM.ordinal())-1, Column.LONGEST_WORD.ordinal()+1);
+            
         }
 
     }
@@ -80,16 +85,10 @@ public class DirectoryContainer {
 
             mDirName.get(dir).set(Column.SHORTEST_WORD.ordinal(), word);
 
+            model.setValueAt(word, (int)mDirName.get(dir).get(Column.ROW_NUM.ordinal())-1, Column.SHORTEST_WORD.ordinal()+1);
+            
         }
 
-    }
-
-    public static String getStatisticsOf(String filePath, int numOfCol) {
-        
-        String dir = generateMapKey(Path.getParentOfFile(filePath));
-        
-        return mDirName.get(dir).get(numOfCol).toString();
-    
     }
 
     public static void clearResults() {

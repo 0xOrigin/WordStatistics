@@ -12,7 +12,7 @@ public class ConsumeFile {
             
              while (Buffer.isEmpty()){
                 try {
-                    Thread.sleep(250);
+                    Thread.sleep(100);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
@@ -31,11 +31,8 @@ public class ConsumeFile {
                 workerArr[j] = new Worker(start, start + 4, CURRENT_SIZE_OF_BUFFER);
                 workerArr[j].start();
                 start += 4;
-            }
-
-            for (Worker worker : workerArr) {
                 try {
-                    worker.join();
+                    workerArr[j].join();
                 } catch (InterruptedException e) {
                 }
             }

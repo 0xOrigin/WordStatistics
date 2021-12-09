@@ -16,6 +16,8 @@ public class FileContainer {
     
     private static Map<String, ArrayList<Object>> mFileName = new HashMap<String, ArrayList<Object>>();
     
+    private static DefaultTableModel model = (DefaultTableModel) ResultFrame.getInstance().getFileTable().getModel();
+    
     private static ArrayList<Object> generateColumns(){
         
         ArrayList<Object> columnArr = new ArrayList<>();
@@ -33,7 +35,6 @@ public class FileContainer {
         String file = generateMapKey(filePath);
         ArrayList<Object> rowData = new ArrayList<>();
         
-        DefaultTableModel model = (DefaultTableModel) ResultFrame.getInstance().getFileTable().getModel();
         columns.set(Column.ROW_NUM.ordinal(), (model.getRowCount() + 1));
         
         mFileName.put(file, columns);
@@ -53,23 +54,22 @@ public class FileContainer {
         int oldValue = (int) mFileName.get(file).get(numOfCol);
         mFileName.get(file).set(numOfCol, oldValue + 1);
         
+        if(numOfCol > 0){
+            model.setValueAt(oldValue+1, (int)mFileName.get(file).get(Column.ROW_NUM.ordinal())-1, numOfCol+1);
+        }
+        
     }
  
     public static synchronized void storeLongestWord(String filePath, String word){
         String file = generateMapKey(filePath);
         mFileName.get(file).set(Column.LONGEST_WORD.ordinal(), word);
-
+        model.setValueAt(word, (int)mFileName.get(file).get(Column.ROW_NUM.ordinal())-1, Column.LONGEST_WORD.ordinal()+1);
     }
     
     public static synchronized void storeShortestWord(String filePath, String word){
         String file = generateMapKey(filePath);
         mFileName.get(file).set(Column.SHORTEST_WORD.ordinal(), word);
-
-    }
-    
-    public static String getStatisticsOf(String filePath, int numOfCol){
-        String file = generateMapKey(filePath);
-        return mFileName.get(file).get(numOfCol).toString();
+        model.setValueAt(word, (int)mFileName.get(file).get(Column.ROW_NUM.ordinal())-1, Column.SHORTEST_WORD.ordinal()+1);
     }
     
     public static void clearResults(){

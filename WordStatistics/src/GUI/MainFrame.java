@@ -133,7 +133,12 @@ public class MainFrame extends javax.swing.JFrame {
         String path= DirPath.getText();
         if(Path.isValid(path)){
             this.dispose();
-            ResultFrame.getInstance().setVisible(true);
+            java.awt.EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    ResultFrame.getInstance().setVisible(true);
+                }
+            });
             DirectoryContainer.add(path);
             if(SubDirsCheckBox.isSelected()){
                 Thread t = new Thread (new DiscoverSubdirs(path));

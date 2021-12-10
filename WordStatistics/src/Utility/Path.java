@@ -8,8 +8,9 @@ import java.io.File;
  */
 public class Path {
 
-    private static String  beforeTheParentDir = "";
-
+    private static String  beforeTheParentDir = "", parentMapKey = "";
+    private static boolean parentFlag = true;
+    
     private static void initPath(String path) {
         File file = new File(path);
         beforeTheParentDir = file.getParent() + "/";
@@ -30,7 +31,17 @@ public class Path {
 
     public static String generateMapKey(String path) {
         path = path.replaceAll("\\\\", "/");
+        //////////////////////////////////////////
+        if(parentFlag){
+            parentMapKey = path.replaceAll(beforeTheParentDir, "");
+            parentFlag = false;
+        }
+        //////////////////////////////////////////
         return path.replaceAll(beforeTheParentDir, "");
     }
-    
+    ////////////////////////////////////////////
+    public static String getParentMapKey(){
+        return parentMapKey;
+    }
+    ///////////////////////////////////////////
 }

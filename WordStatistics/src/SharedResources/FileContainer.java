@@ -29,7 +29,7 @@ public class FileContainer {
 
     }
      
-    public static synchronized void add(String filePath){
+    public synchronized static void add(String filePath){
         
         ArrayList<Object> columns = generateColumns();
         String file = generateMapKey(filePath);
@@ -48,32 +48,28 @@ public class FileContainer {
         model.addRow(rowData.toArray());
     }
     
-    public static synchronized void incrementCounter(String filePath, int numOfCol){
+    public synchronized static void incrementCounter(String filePath, int numOfCol){
         
         String file = generateMapKey(filePath);
-        int oldValue = (int) mFileName.get(file).get(numOfCol);
-        mFileName.get(file).set(numOfCol, oldValue + 1);
+        int newValue = (int) mFileName.get(file).get(numOfCol) + 1;
+        mFileName.get(file).set(numOfCol, newValue);
         
         if(numOfCol > 0){
-            model.setValueAt(oldValue+1, (int)mFileName.get(file).get(Column.ROW_NUM.ordinal())-1, numOfCol+1);
+            model.setValueAt(newValue, (int)mFileName.get(file).get(Column.ROW_NUM.ordinal())-1, numOfCol+1);
         }
         
     }
  
-    public static synchronized void storeLongestWord(String filePath, String word){
+    public synchronized static void storeLongestWord(String filePath, String word){
         String file = generateMapKey(filePath);
         mFileName.get(file).set(Column.LONGEST_WORD.ordinal(), word);
         model.setValueAt(word, (int)mFileName.get(file).get(Column.ROW_NUM.ordinal())-1, Column.LONGEST_WORD.ordinal()+1);
     }
     
-    public static synchronized void storeShortestWord(String filePath, String word){
+    public synchronized static void storeShortestWord(String filePath, String word){
         String file = generateMapKey(filePath);
         mFileName.get(file).set(Column.SHORTEST_WORD.ordinal(), word);
         model.setValueAt(word, (int)mFileName.get(file).get(Column.ROW_NUM.ordinal())-1, Column.SHORTEST_WORD.ordinal()+1);
     }
     
-    public static void clearResults(){
-        mFileName.clear();
-    }
-
 }

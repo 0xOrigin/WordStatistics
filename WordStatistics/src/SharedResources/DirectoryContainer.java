@@ -30,7 +30,7 @@ public class DirectoryContainer {
 
     }
 
-    public static synchronized void add(String dirPath) {
+    public synchronized static void add(String dirPath) {
         
         ArrayList<Object> columns = generateColumns();
         String dir = generateMapKey(dirPath);
@@ -50,18 +50,26 @@ public class DirectoryContainer {
         
     }
 
-    public static synchronized void incrementCounter(String filePath, int numOfCol) {
+    public synchronized static void incrementCounter(String filePath, int numOfCol) {
         
         String dir = generateMapKey(Path.getParentOfFile(filePath));
-        int oldValue = (int) mDirName.get(dir).get(numOfCol);
-        mDirName.get(dir).set(numOfCol, oldValue + 1);
-        
+        int newValue = (int) mDirName.get(dir).get(numOfCol) + 1;
+        mDirName.get(dir).set(numOfCol, newValue);
+        /////////////////////////////////////////////////////
+        if(!dir.equals(Path.getParentMapKey())){
+            int newVal = (int) mDirName.get(Path.getParentMapKey()).get(numOfCol) + 1;
+            mDirName.get(Path.getParentMapKey()).set(numOfCol, newVal);
+            if(numOfCol > 0){
+                model.setValueAt(newVal, (int)mDirName.get(Path.getParentMapKey()).get(Column.ROW_NUM.ordinal())-1, numOfCol+1);
+            }
+        }
+        ////////////////////////////////////////////////////
         if(numOfCol > 0){
-            model.setValueAt(oldValue+1, (int)mDirName.get(dir).get(Column.ROW_NUM.ordinal())-1, numOfCol+1);
+            model.setValueAt(newValue, (int)mDirName.get(dir).get(Column.ROW_NUM.ordinal())-1, numOfCol+1);
         }
     }
 
-    public static synchronized void storeLongestWord(String filePath, String word) {
+    public synchronized static void storeLongestWord(String filePath, String word) {
 
         String dir = generateMapKey(Path.getParentOfFile(filePath));
         
@@ -72,10 +80,18 @@ public class DirectoryContainer {
             model.setValueAt(word, (int)mDirName.get(dir).get(Column.ROW_NUM.ordinal())-1, Column.LONGEST_WORD.ordinal()+1);
             
         }
+        ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+        if (word.length() >= mDirName.get(Path.getParentMapKey()).get(Column.LONGEST_WORD.ordinal()).toString().length()) {
 
+            mDirName.get(Path.getParentMapKey()).set(Column.LONGEST_WORD.ordinal(), word);
+            
+            model.setValueAt(word, (int)mDirName.get(Path.getParentMapKey()).get(Column.ROW_NUM.ordinal())-1, Column.LONGEST_WORD.ordinal()+1);
+            
+        }
+        //////////////////////////////////////////////////////////////////////////////////////////////////////////////
     }
 
-    public static synchronized void storeShortestWord(String filePath, String word) {
+    public synchronized static void storeShortestWord(String filePath, String word) {
         
         String dir = generateMapKey(Path.getParentOfFile(filePath));
         
@@ -88,10 +104,16 @@ public class DirectoryContainer {
             model.setValueAt(word, (int)mDirName.get(dir).get(Column.ROW_NUM.ordinal())-1, Column.SHORTEST_WORD.ordinal()+1);
             
         }
+        ///////////////////////////////////////////////////////////////////////////
+        String ss = mDirName.get(Path.getParentMapKey()).get(Column.SHORTEST_WORD.ordinal()).toString();
+        if ((word.length() <= ss.length() || ss.equals(""))) {
 
+            mDirName.get(Path.getParentMapKey()).set(Column.SHORTEST_WORD.ordinal(), word);
+
+            model.setValueAt(word, (int)mDirName.get(Path.getParentMapKey()).get(Column.ROW_NUM.ordinal())-1, Column.SHORTEST_WORD.ordinal()+1);
+            
+        }
+        //////////////////////////////////////////////////////////////////////////////
     }
 
-    public static void clearResults() {
-        mDirName.clear();
-    }
 }

@@ -108,6 +108,7 @@ public class ResultFrame extends javax.swing.JFrame {
             }
         });
         FileTable.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        FileTable.getTableHeader().setReorderingAllowed(false);
         FileTable.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
             public void propertyChange(java.beans.PropertyChangeEvent evt) {
                 FileTablePropertyChange(evt);

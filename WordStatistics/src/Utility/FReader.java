@@ -7,18 +7,11 @@ import java.io.*;
 
 public abstract class FReader implements Runnable {
 
-    private static String path = "";
-
-    public static void filereader(String path) throws IOException {
-        FReader.path = path;
-        UpdateStatistics(path);
-    }
-
-    private static void UpdateStatistics(String filePath) throws IOException {
+    public static void read(String filePath) throws IOException {
 
         Counter c = Counter.getInstance();
 
-        ArrayList<String> FileContent = ReadFromFile();
+        ArrayList<String> FileContent = ReadFromFile(filePath);
         String LONGEST_WORD = "", SHORTEST_WORD = "";
 
         for (String line : FileContent) {
@@ -54,10 +47,9 @@ public abstract class FReader implements Runnable {
                 }
             }
         }
-
     }
 
-    private static ArrayList<String> ReadFromFile() throws IOException {
+    private static ArrayList<String> ReadFromFile(String path) throws IOException {
         ArrayList<String> FileContent = null;
         File file = new File(path);
         FileReader reader = null;

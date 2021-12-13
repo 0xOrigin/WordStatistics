@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 public class ConsumeFile {
     private static final int MAX_NUM_OF_THREADS = 20;
-    private static final int NUM_OF_FILES_PER_THREAD = 4;
+    private static final int NUM_OF_FILES_PER_THREAD = 1;
     
     public static void consume() {
 

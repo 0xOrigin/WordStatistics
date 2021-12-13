@@ -132,28 +132,42 @@ public class MainFrame extends javax.swing.JFrame {
         
         String path= DirPath.getText();
         if(Path.isValid(path)){
+            
             this.dispose();
+            
             java.awt.EventQueue.invokeLater(new Runnable() {
                 @Override
                 public void run() {
                     ResultFrame.getInstance().setVisible(true);
                 }
             });
+            
             DirectoryContainer.add(path);
+            
             if(SubDirsCheckBox.isSelected()){
                 Thread t = new Thread (new DiscoverSubdirs(path));
                 t.start();
             }
+            
             Thread t= new Thread (new DiscoverFiles(path));
             t.start();
+           
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    
+                    try {
+                        // Wait a bit before consuming
+                        Thread.sleep(200);
+                    } catch (InterruptedException ex) {
+                        
+                    }
+                    
                     ConsumeFile.consume();
                 }
             }).start();
-        }
-        else{
+            
+        } else {
             Toolkit.getDefaultToolkit().beep();
             showMessageDialog(null,"Please Enter a Correct Path.");
         }
